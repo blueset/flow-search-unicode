@@ -22,7 +22,7 @@ jobs:
       shell: pwsh
       run: |
         .\get-uni.ps1
-        .\get-emoji.ps1
+        .\get-emoji.ps1 -outdir Flow.Launcher.Plugin.SearchUnicode.Emoji\emoji
         .\release.ps1
         
     - name: Get Version

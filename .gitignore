@@ -353,3 +353,4 @@ MigrationBackup/
 
 # Third-party binary dependencies
 uni.exe
+Flow.Launcher.Plugin.SearchUnicode.Emoji/emoji

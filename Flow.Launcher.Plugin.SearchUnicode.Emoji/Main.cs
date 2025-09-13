@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using Flow.Launcher.Plugin;
+// (no using System.Windows.Forms to avoid Control ambiguity; fully qualify SendKeys when needed)
 
 namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
 {
@@ -109,7 +111,15 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                         ContextData = c,
                         Action = _ =>
                         {
+                            var settings = _context.API.LoadSettingJsonStorage<Settings>();
                             System.Windows.Clipboard.SetText(c.Emoji);
+
+                            if (settings.SelectedAction == "Copy and paste")
+                            {
+                                // fire-and-forget the paste emulation so Action returns immediately
+                                WaitWindowHideAndSimulatePaste();
+                            }
+
                             return true;
                         }
                     }).ToList();
@@ -233,6 +243,15 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
         {
             return new SettingsControl(_context);
         }
+
+        private async Task WaitWindowHideAndSimulatePaste()
+        {
+            while (_context!.API.IsMainWindowVisible())
+            {
+                await Task.Delay(100);
+            }
+            System.Windows.Forms.SendKeys.SendWait("^v");
+        }
     }
     public class EmojiInfo
         {
@@ -262,7 +281,8 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                 get
                 {
                     var codepoint = Codepoint.Replace("U+", "").Replace(" ", "-").ToLower();
-                    return $"https://registry.npmmirror.com/@lobehub/fluent-emoji-3d/1.1.0/files/assets/{codepoint}.webp";
+                    return $"emoji/{codepoint}.png";
+                    // return $"https://registry.npmmirror.com/@lobehub/fluent-emoji-3d/1.1.0/files/assets/{codepoint}.webp";
                 }
             }
         }
@@ -288,6 +308,20 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
             } 
             set {
                 _tone = value;
+            }
+        }
+
+        private string _selectedAction = "Copy to clipboard";
+
+        public string SelectedAction
+        {
+            get
+            {
+                return _selectedAction;
+            }
+            set
+            {
+                _selectedAction = value;
             }
         }
     }

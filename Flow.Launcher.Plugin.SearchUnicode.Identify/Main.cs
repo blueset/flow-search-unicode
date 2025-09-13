@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+using System.Windows.Controls;
 using Flow.Launcher.Plugin;
 
 namespace Flow.Launcher.Plugin.SearchUnicode.Identify
 {
-    public class IdentifyPlugin : IPlugin, IContextMenu
+    public class IdentifyPlugin : IPlugin, IContextMenu, ISettingProvider
     {
 
         private PluginInitContext _context;
@@ -121,7 +123,15 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Identify
                 ContextData = c,
                 Action = _ =>
                 {
+                    var settings = _context.API.LoadSettingJsonStorage<Settings>();
                     System.Windows.Clipboard.SetText(Char.ConvertFromUtf32(int.Parse(c.Decimal)).ToString());
+
+                    if (settings.SelectedAction == "Copy and paste")
+                    {
+                        // fire-and-forget the paste emulation so Action returns immediately
+                        WaitWindowHideAndSimulatePaste();
+                    }
+
                     return true;
                 }
             }).ToList());
@@ -408,6 +418,20 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Identify
                 }
             }.Where(r => !string.IsNullOrWhiteSpace(r.SubTitle)).ToList();
         }
+
+        public Control CreateSettingPanel()
+        {
+            return new SettingsControl(_context);
+        }
+
+        private async Task WaitWindowHideAndSimulatePaste()
+        {
+            while (_context!.API.IsMainWindowVisible())
+            {
+                await Task.Delay(100);
+            }
+            System.Windows.Forms.SendKeys.SendWait("^v");
+        }
     }
 
     public class CharInfo
@@ -456,5 +480,22 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Identify
         public string Width { get; set; }
         [JsonPropertyName("xml")]
         public string Xml { get; set; }
+    }
+
+    public class Settings
+    {
+        private string _selectedAction = "Copy to clipboard";
+
+        public string SelectedAction
+        {
+            get
+            {
+                return _selectedAction;
+            }
+            set
+            {
+                _selectedAction = value;
+            }
+        }
     }
 }

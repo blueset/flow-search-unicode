@@ -1,7 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <TargetFramework>net7.0-windows</TargetFramework>
+    <UseWpf>true</UseWpf>
+    <UseWindowsForms>true</UseWindowsForms>
     <AssemblyName>Flow.Launcher.Plugin.SearchUnicode.Identify</AssemblyName>
     <PackageId>Flow.Launcher.Plugin.SearchUnicode.Identify</PackageId>
     <Authors>blueset</Authors>

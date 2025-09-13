@@ -1,11 +1,11 @@
-using System;
+using System.Windows;
 using System.Windows.Controls;
 using Flow.Launcher.Plugin;
 
-namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
+namespace Flow.Launcher.Plugin.SearchUnicode.Identify
 {
     /// <summary>
-    ///  Interactive logic for SettingsControl.xaml
+    /// Interaction logic for SettingsControl.xaml
     /// </summary>
     public partial class SettingsControl : UserControl
     {
@@ -15,17 +15,11 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
         public SettingsControl(PluginInitContext context)
         {
             _context = context;
-            _settings = context.API.LoadSettingJsonStorage<Settings>();
+            _settings = _context.API.LoadSettingJsonStorage<Settings>();
 
             InitializeComponent();
 
-            GenderTextBox.Text = _settings.Gender;
-            ToneTextBox.Text = _settings.Tone;
-
-            GenderTextBox.TextChanged += GenderTextBox_TextChanged;
-            ToneTextBox.TextChanged += ToneTextBox_TextChanged;
-
-            // Initialize action ComboBox selection based on saved setting
+            // Find the ComboBoxItem that matches the saved setting
             foreach (ComboBoxItem item in ActionComboBox.Items)
             {
                 if (item.Content.ToString() == _settings.SelectedAction)
@@ -35,6 +29,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                 }
             }
 
+            // If no item was selected, default to first option
             if (ActionComboBox.SelectedItem == null)
             {
                 ActionComboBox.SelectedIndex = 0;
@@ -48,20 +43,6 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
             ActionComboBox.SelectionChanged += ActionComboBox_SelectionChanged;
         }
 
-        private void GenderTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _settings = _context.API.LoadSettingJsonStorage<Settings>();
-            _settings.Gender = GenderTextBox.Text;
-            _context.API.SaveSettingJsonStorage<Settings>();
-        }
-
-        private void ToneTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _settings = _context.API.LoadSettingJsonStorage<Settings>();
-            _settings.Tone = ToneTextBox.Text;
-            _context.API.SaveSettingJsonStorage<Settings>();
-        }
-
         private void ActionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ActionComboBox.SelectedItem is ComboBoxItem selectedItem)
@@ -70,6 +51,5 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                 _context.API.SaveSettingJsonStorage<Settings>();
             }
         }
-
     }
 }

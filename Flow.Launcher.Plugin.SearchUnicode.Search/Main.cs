@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using Flow.Launcher.Plugin;
 
 namespace Flow.Launcher.Plugin.SearchUnicode.Search
 {
-    public partial class SearchPlugin : IPlugin, IContextMenu
+    public partial class SearchPlugin : IPlugin, IContextMenu, ISettingProvider
     {
         [GeneratedRegex(@"((U\+)?[0-9A-Fa-f]+ ?)+$")]
         private static partial Regex UnicodeHexRegex();
@@ -114,7 +115,14 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Search
                 ContextData = c,
                 Action = _ =>
                 {
-                    System.Windows.Clipboard.SetText(Char.ConvertFromUtf32(int.Parse(c.Decimal)).ToString());
+                    var settings = _context.API.LoadSettingJsonStorage<Settings>();
+                    var text = Char.ConvertFromUtf32(int.Parse(c.Decimal)).ToString();
+                    System.Windows.Clipboard.SetText(text);
+
+                    if (settings.SelectedAction == "Copy and paste")
+                    {
+                        WaitWindowHideAndSimulatePaste();
+                    }
                     return true;
                 }
             }).ToList();
@@ -401,6 +409,40 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Search
             }.Where(r => !string.IsNullOrWhiteSpace(r.SubTitle)).ToList();
         }
 
+        public Control CreateSettingPanel()
+        {
+            return new SettingsControl(_context);
+        }
+
+        private async Task WaitWindowHideAndSimulatePaste()
+        {
+            while (_context!.API.IsMainWindowVisible())
+            {
+                await Task.Delay(100);
+            }
+            // new InputSimulator().Keyboard.ModifiedKeyStroke(
+            //     VirtualKeyCode.CONTROL,
+            //     VirtualKeyCode.VK_V
+            // );
+            System.Windows.Forms.SendKeys.SendWait("^v");
+        }
+    }
+
+    public class Settings
+    {
+        private string _selectedAction = "Copy to clipboard";
+
+        public string SelectedAction
+        {
+            get
+            {
+                return _selectedAction;
+            }
+            set
+            {
+                _selectedAction = value;
+            }
+        }
     }
 
     public class CharInfo

@@ -4,7 +4,7 @@
     "Name": "Search Unicode – Emoji",
     "Description": "Search Emoji in the Unicode character set",
     "Author": "Eana Hufwe",
-    "Version": "1.0.4",
+    "Version": "1.1.0",
     "Language": "csharp",
     "Website": "https://github.com/blueset/flow-search-unicode",
     "IcoPath": "icon.png",

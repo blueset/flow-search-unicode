@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70*"/>
@@ -70,6 +71,36 @@
             Grid.Column="1"
             Margin="0,9,18,9"
             HorizontalAlignment="Stretch"/>
+
+        <StackPanel
+            Orientation="Vertical"
+            VerticalAlignment="Center"
+            Margin="70,9,18,9"
+            Grid.Row="2"
+            Grid.Column="0">
+            <TextBlock
+                Margin="0,0,0,0"
+                VerticalAlignment="Center"
+                FontSize="14"
+                TextWrapping="WrapWithOverflow"
+                Text="Action when selecting an item"/>
+            <TextBlock
+                Margin="0,2,10,0"
+                VerticalAlignment="Center"
+                FontSize="12"
+                TextWrapping="WrapWithOverflow"
+                Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                Text="Choose what happens when you select an emoji"/>
+        </StackPanel>
+        <ComboBox
+            x:Name="ActionComboBox"
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="0,9,18,9"
+            HorizontalAlignment="Stretch">
+            <ComboBoxItem Content="Copy to clipboard"/>
+            <ComboBoxItem Content="Copy and paste"/>
+        </ComboBox>
 
     </Grid>
 </UserControl>

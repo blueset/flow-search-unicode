@@ -22,6 +22,7 @@ jobs:
       shell: pwsh
       run: |
         .\get-uni.ps1
+        .\get-emoji.ps1
         .\release.ps1
         
     - name: Get Version

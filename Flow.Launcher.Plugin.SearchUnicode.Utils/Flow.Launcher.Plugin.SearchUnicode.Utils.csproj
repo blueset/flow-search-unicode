@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <AssemblyName>Flow.Launcher.Plugin.SearchUnicode.Utils</AssemblyName>
+    <PackageId>Flow.Launcher.Plugin.SearchUnicode.Utils</PackageId>
+    <Authors>blueset</Authors>
+    <PackageProjectUrl>https://github.com/blueset/flow-search-unicode</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/blueset/flow-search-unicode</RepositoryUrl>
+    <PackageTags>flow-launcher flow-plugin</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flow.Launcher.Plugin" Version="4.4.0" />
+  </ItemGroup>
+
+</Project>

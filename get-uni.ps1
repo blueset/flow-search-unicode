@@ -1,5 +1,5 @@
 # Load JSON from the latest release API
-$releaseInfo = Invoke-RestMethod -Uri "https://api.github.com/repos/arp242/uni/releases/latest"
+$releaseInfo = Invoke-RestMethod -Uri "https://api.github.com/repos/blueset/uni/releases/latest"
 
 # Find the first asset that ends with '-windows-amd64.exe.gz'
 $asset = $releaseInfo.assets | Where-Object { $_.name -like "*-windows-amd64.exe.gz" } | Select-Object -First 1

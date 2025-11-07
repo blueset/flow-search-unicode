@@ -5,8 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using Flow.Launcher.Plugin;
-// (no using System.Windows.Forms to avoid Control ambiguity; fully qualify SendKeys when needed)
+using Flow.Launcher.Plugin.SearchUnicode.Utils;
 
 namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
 {
@@ -70,7 +69,8 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                 );
             }
 
-            var (stdout, stderr) = ExecuteUni("emoji", new List<string> { query.Search });
+            var args = SharedUtilities.SplitArgs(query.Search);
+            var (stdout, stderr) = ExecuteUni("emoji", args);
             if (stdout.Length == 0)
             {
                 return new List<Result>(

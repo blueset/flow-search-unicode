@@ -6,13 +6,23 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using Flow.Launcher.Plugin;
+using Flow.Launcher.Plugin.SearchUnicode.Utils;
 
 namespace Flow.Launcher.Plugin.SearchUnicode.Search
 {
     public partial class SearchPlugin : IPlugin, IContextMenu, ISettingProvider
     {
-        [GeneratedRegex(@"((U\+)?[0-9A-Fa-f]+ ?)+$")]
+        // Pattern components for readability
+        private const string PATTERN_SINGLE_HEX = @"((U\+|0x|%x)?[0-9A-Fa-f]+)";
+        private const string PATTERN_SINGLE_BIN = @"0b[01]+";
+        private const string PATTERN_SINGLE_DEC = @"0d[0-9]+";
+        private const string PATTERN_SINGLE_OCT = @"0o[0-7]+";
+        private const string PATTERN_SINGLE_VALUE = @"(" + PATTERN_SINGLE_HEX + @"|" + PATTERN_SINGLE_BIN + @"|" + PATTERN_SINGLE_DEC + @"|" + PATTERN_SINGLE_OCT + @")";
+        
+        // Combined pattern matching any of: single hex, binary, decimal, octal, range, or utf8 patterns
+        private const string PRINT_PATTERN = @"^(" + PATTERN_SINGLE_HEX + @"|" + PATTERN_SINGLE_BIN + @"|" + PATTERN_SINGLE_DEC + @"|" + PATTERN_SINGLE_OCT + @"|" + PATTERN_SINGLE_VALUE + @"(\.\.|-)" + PATTERN_SINGLE_VALUE + @"|utf8:" + PATTERN_SINGLE_HEX + @"|utf8:[0-9A-Fa-f]+)$";
+        
+        [GeneratedRegex(PRINT_PATTERN, RegexOptions.IgnoreCase)]
         private static partial Regex UnicodeHexRegex();
 
         private PluginInitContext _context;
@@ -68,7 +78,9 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Search
                 );
             }
 
-            var (stdout, stderr) = ExecuteUni("search", new List<string>{query.Search});
+            var args = SharedUtilities.SplitArgs(query.Search);
+
+            var (stdout, stderr) = ExecuteUni("search", args);
             var chars = new List<CharInfo>();
 
             if (stdout.Length > 0) {
@@ -82,9 +94,9 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Search
                 }
             }
 
-            if (UnicodeHexRegex().IsMatch(query.Search)) {
-                
-                var (pstdout, _) = ExecuteUni("print", query.Search.Split(" "));
+            if (args.All(arg => UnicodeHexRegex().IsMatch(arg))) {
+
+                var (pstdout, _) = ExecuteUni("print", args);
                 if (pstdout.Length > 0) {
                     try {
                         chars.AddRange(JsonSerializer.Deserialize<List<CharInfo>>(pstdout));

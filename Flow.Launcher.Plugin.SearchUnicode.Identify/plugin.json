@@ -4,7 +4,7 @@
     "Name": "Search Unicode – Identify",
     "Description": "Identify Unicode properties of any text",
     "Author": "Eana Hufwe",
-    "Version": "1.1.0",
+    "Version": "1.2.0",
     "Language": "csharp",
     "Website": "https://github.com/blueset/flow-search-unicode",
     "IcoPath": "icon.png",

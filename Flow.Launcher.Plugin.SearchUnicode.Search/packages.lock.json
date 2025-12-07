@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net9.0-windows7.0": {
+      "Flow.Launcher.Plugin": {
+        "type": "Direct",
+        "requested": "[5.1.0, )",
+        "resolved": "5.1.0",
+        "contentHash": "3o+cB1AXhN+pkXFfyzFvNrVc4E0dfvHpzsCIlQslcvRrIrJDm4M273wr8upALbyJr84uBx/UjitPwMtN7X2Zmw==",
+        "dependencies": {
+          "JetBrains.Annotations": "2025.2.2"
+        }
+      },
+      "JetBrains.Annotations": {
+        "type": "Transitive",
+        "resolved": "2025.2.2",
+        "contentHash": "0X56ZRizuHdrnPpgXjWV7f2tQO1FlQg5O1967OGKnI/4ZRNOK642J8L7brM1nYvrxTTU5TP1yRyXLRLaXLPQ8A=="
+      },
+      "flow.launcher.plugin.searchunicode.utils": {
+        "type": "Project",
+        "dependencies": {
+          "Flow.Launcher.Plugin": "[5.1.0, )"
+        }
+      }
+    }
+  }
+}

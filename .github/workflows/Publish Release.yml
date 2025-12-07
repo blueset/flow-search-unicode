@@ -17,7 +17,6 @@ jobs:
       uses: actions/setup-dotnet@v5
       with:
         dotnet-version: '9.x'
-        cache: true
 
     - name: Build and Package
       shell: pwsh

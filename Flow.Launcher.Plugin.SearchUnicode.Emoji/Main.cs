@@ -117,9 +117,10 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     SubTitle = $"{c.Codepoint}: {c.Group} ({c.Subgroup}). {c.Cldr}",
                     ActionKeywordAssigned = "e",
                     CopyText = c.Emoji,
-                    IcoPath = c.ImageCdn,
+                    IcoPath = c.ImageRelativePath,
                     ContextData = c,
 					TitleHighlightData = SharedUtilities.GetMatchingCharacterIndices(_context.API, $"{c.Emoji} — {c.Name}", args),
+					PreviewPanel = new Lazy<UserControl>(() => new EmojiPreviewPanel(c, _context.CurrentPluginMetadata.PluginDirectory)),
 					Action = _ =>
                     {
                         var settings = _context.API.LoadSettingJsonStorage<Settings>();
@@ -207,7 +208,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     Title = "Emoji",
                     SubTitle = emoji.Emoji,
                     ActionKeywordAssigned = "e",
-                    IcoPath = emoji.ImageCdn,
+                    IcoPath = emoji.ImageRelativePath,
                     CopyText = emoji.Emoji,
 					Action = _ =>
                     {
@@ -294,13 +295,12 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
         [JsonPropertyName("subgroup")]
         public string Subgroup { get; set; }
 
-        public string ImageCdn
+        public string ImageRelativePath
         {
             get
             {
                 var codepoint = Codepoint.Replace("U+", "").Replace(" ", "-").ToLower();
                 return $"emoji/{codepoint}.png";
-                // return $"https://registry.npmmirror.com/@lobehub/fluent-emoji-3d/1.1.0/files/assets/{codepoint}.webp";
             }
         }
     }

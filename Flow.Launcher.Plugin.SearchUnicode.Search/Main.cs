@@ -143,7 +143,8 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Search
                 Glyph = new GlyphInfo("sans-serif", c.Char),
                 TitleHighlightData = SharedUtilities.GetMatchingCharacterIndices(_context.API, $"{c.Char} — {c.Name}", args),
 				ContextData = c,
-                Action = _ =>
+				PreviewPanel = new Lazy<UserControl>(() => new UnicodePreviewPanel(c)),
+				Action = _ =>
                 {
                     var settings = _context.API.LoadSettingJsonStorage<Settings>();
                     var text = Char.ConvertFromUtf32(int.Parse(c.Decimal)).ToString();

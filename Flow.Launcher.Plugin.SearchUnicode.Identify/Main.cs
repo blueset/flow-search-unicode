@@ -131,7 +131,8 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Identify
                 CopyText = Char.ConvertFromUtf32(int.Parse(c.Decimal)).ToString(),
                 Glyph = new GlyphInfo("sans-serif", c.Char),
                 ContextData = c,
-                Action = _ =>
+                PreviewPanel = new Lazy<UserControl>(() => new UnicodePreviewPanel(c)),
+				Action = _ =>
                 {
                     var settings = _context.API.LoadSettingJsonStorage<Settings>();
                     System.Windows.Clipboard.SetText(Char.ConvertFromUtf32(int.Parse(c.Decimal)).ToString());

@@ -19,8 +19,9 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Identify
             _context = context;
         }
 
-        private (string stdout, string stderr) ExecuteUni(string action, IEnumerable<string> query) {
-            
+        private (string stdout, string stderr) ExecuteUni(string action, IEnumerable<string> query)
+        {
+
             var startInfo = new System.Diagnostics.ProcessStartInfo
             {
                 FileName = System.IO.Path.Combine(
@@ -53,6 +54,11 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Identify
         {
             if (string.IsNullOrWhiteSpace(query.Search))
             {
+                if (string.IsNullOrWhiteSpace(query.ActionKeyword))
+                {
+                    return new List<Result>();
+                }
+
                 return new List<Result>(
                     new Result[] {
                         new Result {
@@ -65,10 +71,11 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Identify
                 );
             }
 
-            var (stdout, stderr) = ExecuteUni("identify", new List<string>{query.Search});
+            var (stdout, stderr) = ExecuteUni("identify", new List<string> { query.Search });
             var chars = new List<CharInfo>();
 
-            if (stdout.Length > 0) {
+            if (stdout.Length > 0)
+            {
                 try
                 {
                     chars.AddRange(JsonSerializer.Deserialize<List<CharInfo>>(stdout));
@@ -81,7 +88,8 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Identify
 
             var result = new List<Result>();
 
-            if (chars.Count > 0) {
+            if (chars.Count > 0)
+            {
                 result.Add(new Result
                 {
                     Title = "Hex sequence in Unicode",
@@ -111,7 +119,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Identify
                     Glyph = new GlyphInfo("sans-serif", "&"),
                 });
             }
-            
+
 
             result.AddRange(chars.Select(c => new Result
             {
@@ -141,7 +149,8 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Identify
 
         public List<Result> LoadContextMenus(Result selectedResult)
         {
-            if (selectedResult.ContextData is not CharInfo charInfo) {
+            if (selectedResult.ContextData is not CharInfo charInfo)
+            {
                 return new List<Result>();
             }
             if (charInfo == null)

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <AssemblyName>Flow.Launcher.Plugin.SearchUnicode.Utils</AssemblyName>
     <PackageId>Flow.Launcher.Plugin.SearchUnicode.Utils</PackageId>
     <Authors>blueset</Authors>
@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Flow.Launcher.Plugin" Version="4.4.0" />
+    <PackageReference Include="Flow.Launcher.Plugin" Version="5.1.0" />
   </ItemGroup>
 
 </Project>

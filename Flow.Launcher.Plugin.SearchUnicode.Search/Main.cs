@@ -18,10 +18,10 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Search
         private const string PATTERN_SINGLE_DEC = @"0d[0-9]+";
         private const string PATTERN_SINGLE_OCT = @"0o[0-7]+";
         private const string PATTERN_SINGLE_VALUE = @"(" + PATTERN_SINGLE_HEX + @"|" + PATTERN_SINGLE_BIN + @"|" + PATTERN_SINGLE_DEC + @"|" + PATTERN_SINGLE_OCT + @")";
-        
+
         // Combined pattern matching any of: single hex, binary, decimal, octal, range, or utf8 patterns
         private const string PRINT_PATTERN = @"^(" + PATTERN_SINGLE_HEX + @"|" + PATTERN_SINGLE_BIN + @"|" + PATTERN_SINGLE_DEC + @"|" + PATTERN_SINGLE_OCT + @"|" + PATTERN_SINGLE_VALUE + @"(\.\.|-)" + PATTERN_SINGLE_VALUE + @"|utf8:" + PATTERN_SINGLE_HEX + @"|utf8:[0-9A-Fa-f]+)$";
-        
+
         [GeneratedRegex(PRINT_PATTERN, RegexOptions.IgnoreCase)]
         private static partial Regex UnicodeHexRegex();
 
@@ -32,8 +32,9 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Search
             _context = context;
         }
 
-        private (string stdout, string stderr) ExecuteUni(string action, IEnumerable<string> query) {
-            
+        private (string stdout, string stderr) ExecuteUni(string action, IEnumerable<string> query)
+        {
+
             var startInfo = new System.Diagnostics.ProcessStartInfo
             {
                 FileName = System.IO.Path.Combine(
@@ -66,6 +67,11 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Search
         {
             if (string.IsNullOrWhiteSpace(query.Search))
             {
+                if (string.IsNullOrWhiteSpace(query.ActionKeyword))
+                {
+                    return new List<Result>();
+                }
+
                 return new List<Result>(
                     new Result[] {
                         new Result {
@@ -83,7 +89,8 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Search
             var (stdout, stderr) = ExecuteUni("search", args);
             var chars = new List<CharInfo>();
 
-            if (stdout.Length > 0) {
+            if (stdout.Length > 0)
+            {
                 try
                 {
                     chars.AddRange(JsonSerializer.Deserialize<List<CharInfo>>(stdout));
@@ -94,19 +101,29 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Search
                 }
             }
 
-            if (args.All(arg => UnicodeHexRegex().IsMatch(arg))) {
-
+            if (args.All(arg => UnicodeHexRegex().IsMatch(arg)))
+            {
                 var (pstdout, _) = ExecuteUni("print", args);
-                if (pstdout.Length > 0) {
-                    try {
+                if (pstdout.Length > 0)
+                {
+                    try
+                    {
                         chars.AddRange(JsonSerializer.Deserialize<List<CharInfo>>(pstdout));
-                    } catch (JsonException e) {
+                    }
+                    catch (JsonException e)
+                    {
                         throw new Exception($"Failed to parse JSON. StdOut = [{stdout}], StdErr = [{stderr}]", e);
                     }
                 }
             }
-            
-            if (chars.Count == 0) {
+
+            if (chars.Count == 0)
+            {
+                if (string.IsNullOrWhiteSpace(query.ActionKeyword))
+                {
+                    return new List<Result>();
+                }
+
                 return new List<Result> {
                     new Result {
                         Title = "No matches found",
@@ -142,7 +159,8 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Search
 
         public List<Result> LoadContextMenus(Result selectedResult)
         {
-            if (selectedResult.ContextData is not CharInfo) {
+            if (selectedResult.ContextData is not CharInfo)
+            {
                 return new List<Result>();
             }
             var charInfo = selectedResult.ContextData as CharInfo;

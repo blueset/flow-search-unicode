@@ -57,6 +57,11 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
         {
             if (string.IsNullOrWhiteSpace(query.Search))
             {
+                if (string.IsNullOrWhiteSpace(query.ActionKeyword))
+                {
+                    return new List<Result>();
+                }
+
                 return new List<Result>(
                     new Result[] {
                         new Result {
@@ -73,6 +78,11 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
             var (stdout, stderr) = ExecuteUni("emoji", args);
             if (stdout.Length == 0)
             {
+                if (string.IsNullOrWhiteSpace(query.ActionKeyword))
+                {
+                    return new List<Result>();
+                }
+
                 return new List<Result>(
                     new Result[] {
                         new Result {
@@ -100,29 +110,29 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                         }
                     };
                 }
-                
+
                 return emojis.Take(20).Select(c => new Result
+                {
+                    Title = $"{c.Emoji} — {c.Name}",
+                    SubTitle = $"{c.Codepoint}: {c.Group} ({c.Subgroup}). {c.Cldr}",
+                    ActionKeywordAssigned = "e",
+                    CopyText = c.Emoji,
+                    IcoPath = c.ImageCdn,
+                    ContextData = c,
+                    Action = _ =>
                     {
-                        Title = $"{c.Emoji} — {c.Name}",
-                        SubTitle = $"{c.Codepoint}: {c.Group} ({c.Subgroup}). {c.Cldr}",
-                        ActionKeywordAssigned = "e",
-                        CopyText = c.Emoji,
-                        IcoPath = c.ImageCdn,
-                        ContextData = c,
-                        Action = _ =>
+                        var settings = _context.API.LoadSettingJsonStorage<Settings>();
+                        System.Windows.Clipboard.SetText(c.Emoji);
+
+                        if (settings.SelectedAction == "Copy and paste")
                         {
-                            var settings = _context.API.LoadSettingJsonStorage<Settings>();
-                            System.Windows.Clipboard.SetText(c.Emoji);
-
-                            if (settings.SelectedAction == "Copy and paste")
-                            {
-                                // fire-and-forget the paste emulation so Action returns immediately
-                                WaitWindowHideAndSimulatePaste();
-                            }
-
-                            return true;
+                            // fire-and-forget the paste emulation so Action returns immediately
+                            WaitWindowHideAndSimulatePaste();
                         }
-                    }).ToList();
+
+                        return true;
+                    }
+                }).ToList();
             }
             catch (JsonException e)
             {
@@ -238,7 +248,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                 },
             };
         }
-        
+
         public Control CreateSettingPanel()
         {
             return new SettingsControl(_context);
@@ -254,59 +264,65 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
         }
     }
     public class EmojiInfo
+    {
+        [JsonPropertyName("cldr")]
+        public string Cldr { get; set; }
+
+        [JsonPropertyName("cldr_full")]
+        public string CldrFull { get; set; }
+
+        [JsonPropertyName("cpoint")]
+        public string Codepoint { get; set; }
+
+        [JsonPropertyName("emoji")]
+        public string Emoji { get; set; }
+
+        [JsonPropertyName("group")]
+        public string Group { get; set; }
+
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [JsonPropertyName("subgroup")]
+        public string Subgroup { get; set; }
+
+        public string ImageCdn
         {
-            [JsonPropertyName("cldr")]
-            public string Cldr { get; set; }
-
-            [JsonPropertyName("cldr_full")]
-            public string CldrFull { get; set; }
-
-            [JsonPropertyName("cpoint")]
-            public string Codepoint { get; set; }
-
-            [JsonPropertyName("emoji")]
-            public string Emoji { get; set; }
-
-            [JsonPropertyName("group")]
-            public string Group { get; set; }
-
-            [JsonPropertyName("name")]
-            public string Name { get; set; }
-
-            [JsonPropertyName("subgroup")]
-            public string Subgroup { get; set; }
-
-            public string ImageCdn
+            get
             {
-                get
-                {
-                    var codepoint = Codepoint.Replace("U+", "").Replace(" ", "-").ToLower();
-                    return $"emoji/{codepoint}.png";
-                    // return $"https://registry.npmmirror.com/@lobehub/fluent-emoji-3d/1.1.0/files/assets/{codepoint}.webp";
-                }
+                var codepoint = Codepoint.Replace("U+", "").Replace(" ", "-").ToLower();
+                return $"emoji/{codepoint}.png";
+                // return $"https://registry.npmmirror.com/@lobehub/fluent-emoji-3d/1.1.0/files/assets/{codepoint}.webp";
             }
         }
-    
+    }
+
     public class Settings
     {
         private string _gender = "people";
 
-        public string Gender { 
-            get {
+        public string Gender
+        {
+            get
+            {
                 return _gender;
-            } 
-            set {
+            }
+            set
+            {
                 _gender = value;
             }
         }
 
         private string _tone = "none";
 
-        public string Tone { 
-            get {
+        public string Tone
+        {
+            get
+            {
                 return _tone;
-            } 
-            set {
+            }
+            set
+            {
                 _tone = value;
             }
         }

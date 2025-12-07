@@ -35,43 +35,16 @@ jobs:
         $version = @($searchVersion, $identifyVersion, $emojiVersion) | Sort-Object -Descending | Select-Object -First 1
         echo "version=$version" >> $env:GITHUB_OUTPUT
         
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
+    - name: Publish Release
+      uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: v${{ steps.get_version.outputs.version }}
-        release_name: Release v${{ steps.get_version.outputs.version }}
+        name: Release v${{ steps.get_version.outputs.version }}
         draft: false
         prerelease: false
-        
-    - name: Upload Search Plugin
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: Flow.Launcher.Plugin.SearchUnicode.Search/bin/SearchUnicode.Search.zip
-        asset_name: SearchUnicode.Search.zip
-        asset_content_type: application/zip
-        
-    - name: Upload Identify Plugin  
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: Flow.Launcher.Plugin.SearchUnicode.Identify/bin/SearchUnicode.Identify.zip
-        asset_name: SearchUnicode.Identify.zip
-        asset_content_type: application/zip
-        
-    - name: Upload Emoji Plugin
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: Flow.Launcher.Plugin.SearchUnicode.Emoji/bin/SearchUnicode.Emoji.zip
-        asset_name: SearchUnicode.Emoji.zip
-        asset_content_type: application/zip
+        files: |
+          Flow.Launcher.Plugin.SearchUnicode.Search/bin/SearchUnicode.Search.zip
+          Flow.Launcher.Plugin.SearchUnicode.Identify/bin/SearchUnicode.Identify.zip
+          Flow.Launcher.Plugin.SearchUnicode.Emoji/bin/SearchUnicode.Emoji.zip

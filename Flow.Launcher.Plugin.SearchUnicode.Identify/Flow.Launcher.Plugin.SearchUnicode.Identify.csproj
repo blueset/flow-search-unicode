@@ -36,4 +36,8 @@
     <PackageReference Include="Flow.Launcher.Plugin" Version="5.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Flow.Launcher.Plugin.SearchUnicode.Utils\Flow.Launcher.Plugin.SearchUnicode.Utils.csproj" />
+  </ItemGroup>
+
 </Project>

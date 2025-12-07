@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -71,6 +72,28 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
             }
 
             if (started) yield return result.ToString();
+        }
+
+        public static IList<int> GetMatchingCharacterIndices(IPublicAPI api, string input, IEnumerable<string> patterns)
+        {
+            var result = new SortedSet<int>();
+
+            if (string.IsNullOrEmpty(input) || patterns is null)
+            {
+                return new List<int>();
+            }
+
+            foreach (var pattern in patterns)
+            {
+                var matches = api.FuzzySearch(input, pattern).MatchData;
+
+                if (matches is not null)
+                {
+					result.UnionWith(matches);
+				}
+            }
+
+            return new List<int>(result);
         }
     }
 }

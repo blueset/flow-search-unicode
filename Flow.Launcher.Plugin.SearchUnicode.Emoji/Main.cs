@@ -119,7 +119,8 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     CopyText = c.Emoji,
                     IcoPath = c.ImageCdn,
                     ContextData = c,
-                    Action = _ =>
+					TitleHighlightData = SharedUtilities.GetMatchingCharacterIndices(_context.API, $"{c.Emoji} — {c.Name}", args),
+					Action = _ =>
                     {
                         var settings = _context.API.LoadSettingJsonStorage<Settings>();
                         System.Windows.Clipboard.SetText(c.Emoji);
@@ -168,7 +169,8 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     SubTitle = emoji.Cldr,
                     ActionKeywordAssigned = "e",
                     Glyph = new GlyphInfo("Segoe Fluent Icons", "\uf58b"), // pps 2 landscape
-                    Action = _ =>
+                    CopyText = emoji.Cldr,
+					Action = _ =>
                     {
                         System.Windows.Clipboard.SetText(emoji.Cldr);
                         return true;
@@ -180,6 +182,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     SubTitle = emoji.CldrFull,
                     ActionKeywordAssigned = "e",
                     Glyph = new GlyphInfo("Segoe Fluent Icons", "\uf58d"), // pps 4 landscape
+                    CopyText = emoji.CldrFull,
                     Action = _ =>
                     {
                         System.Windows.Clipboard.SetText(emoji.CldrFull);
@@ -192,7 +195,8 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     SubTitle = emoji.Codepoint,
                     ActionKeywordAssigned = "e",
                     Glyph = new GlyphInfo("sans-serif", "U+"),
-                    Action = _ =>
+                    CopyText = emoji.Codepoint,
+					Action = _ =>
                     {
                         System.Windows.Clipboard.SetText(emoji.Codepoint);
                         return true;
@@ -204,7 +208,8 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     SubTitle = emoji.Emoji,
                     ActionKeywordAssigned = "e",
                     IcoPath = emoji.ImageCdn,
-                    Action = _ =>
+                    CopyText = emoji.Emoji,
+					Action = _ =>
                     {
                         System.Windows.Clipboard.SetText(emoji.Emoji);
                         return true;
@@ -216,6 +221,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     SubTitle = emoji.Name,
                     ActionKeywordAssigned = "e",
                     Glyph = new GlyphInfo("Segoe Fluent Icons", "\uec6c"), // favicon 2
+                    CopyText = emoji.Name,
                     Action = _ =>
                     {
                         System.Windows.Clipboard.SetText(emoji.Name);
@@ -228,6 +234,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     SubTitle = emoji.Group,
                     ActionKeywordAssigned = "e",
                     Glyph = new GlyphInfo("Segoe Fluent Icons", "\ue8a9"), // view all
+                    CopyText = emoji.Group,
                     Action = _ =>
                     {
                         System.Windows.Clipboard.SetText(emoji.Group);
@@ -240,7 +247,8 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     SubTitle = emoji.Subgroup,
                     ActionKeywordAssigned = "e",
                     Glyph = new GlyphInfo("Segoe Fluent Icons", "\ue8b3"), // select all
-                    Action = _ =>
+                    CopyText = emoji.Subgroup,
+					Action = _ =>
                     {
                         System.Windows.Clipboard.SetText(emoji.Subgroup);
                         return true;

@@ -9,6 +9,7 @@
     <RepositoryUrl>https://github.com/blueset/flow-search-unicode</RepositoryUrl>
     <PackageTags>flow-launcher flow-plugin</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <UseWpf>true</UseWpf>
   </PropertyGroup>
 
   <ItemGroup>

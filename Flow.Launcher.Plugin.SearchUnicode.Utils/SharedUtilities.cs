@@ -108,6 +108,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
         {
             const int maxRetries = 10;
             const int initialDelayMs = 10;
+            const int CLIPBRD_E_CANT_OPEN = unchecked((int)0x800401D0);
             
             for (int i = 0; i < maxRetries; i++)
             {
@@ -116,7 +117,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     System.Windows.Clipboard.SetText(text);
                     return true;
                 }
-                catch (COMException ex) when (ex.HResult == unchecked((int)0x800401D0)) // CLIPBRD_E_CANT_OPEN
+                catch (COMException ex) when (ex.HResult == CLIPBRD_E_CANT_OPEN)
                 {
                     if (i == maxRetries - 1)
                     {
@@ -125,6 +126,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     }
                     
                     // Wait with exponential backoff before retrying
+                    // Using Thread.Sleep is appropriate here as this is called from synchronous Action callbacks
                     Thread.Sleep(initialDelayMs * (1 << i));
                 }
                 catch

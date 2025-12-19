@@ -72,7 +72,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Aliases,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Aliases);
+                        SharedUtilities.SetClipboardTextSafe(Aliases);
                         return true;
                     }    
                 },
@@ -85,7 +85,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Refs,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Refs);
+                        SharedUtilities.SetClipboardTextSafe(Refs);
                         return true;
                     }
                 },
@@ -98,7 +98,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Binary,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Binary);
+                        SharedUtilities.SetClipboardTextSafe(Binary);
                         return true;
                     }
                 },
@@ -111,7 +111,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Block,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Block);
+                        SharedUtilities.SetClipboardTextSafe(Block);
                         return true;
                     }
                 },
@@ -124,7 +124,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Category,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Category);
+                        SharedUtilities.SetClipboardTextSafe(Category);
                         return true;
                     }
                 },
@@ -137,7 +137,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     Glyph = new GlyphInfo("sans-serif", Char),
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(System.Char.ConvertFromUtf32(int.Parse(Decimal)).ToString());
+                        SharedUtilities.SetClipboardTextSafe(System.Char.ConvertFromUtf32(int.Parse(Decimal)).ToString());
                         return true;
                     }
                 },
@@ -150,7 +150,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Codepoint,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Codepoint);
+                        SharedUtilities.SetClipboardTextSafe(Codepoint);
                         return true;
                     }
                 },
@@ -163,7 +163,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Decimal,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Decimal);
+                        SharedUtilities.SetClipboardTextSafe(Decimal);
                         return true;
                     }
                 },
@@ -176,7 +176,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Cells,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Cells);
+                        SharedUtilities.SetClipboardTextSafe(Cells);
                         return true;
                     }
                 },
@@ -189,7 +189,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Digraph,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Digraph);
+                        SharedUtilities.SetClipboardTextSafe(Digraph);
                         return true;
                     }
                 },
@@ -202,7 +202,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Hex,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Hex);
+                        SharedUtilities.SetClipboardTextSafe(Hex);
                         return true;
                     }
                 },
@@ -215,7 +215,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Html,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Html);
+                        SharedUtilities.SetClipboardTextSafe(Html);
                         return true;
                     }
                 },
@@ -228,7 +228,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Json,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Json);
+                        SharedUtilities.SetClipboardTextSafe(Json);
                         return true;
                     }
                 },
@@ -241,7 +241,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = KeySymbol,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(KeySymbol);
+                        SharedUtilities.SetClipboardTextSafe(KeySymbol);
                         return true;
                     }
                 },
@@ -254,7 +254,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Name,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Name);
+                        SharedUtilities.SetClipboardTextSafe(Name);
                         return true;
                     }
                 },
@@ -267,7 +267,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Oct,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Oct);
+                        SharedUtilities.SetClipboardTextSafe(Oct);
                         return true;
                     }
                 },
@@ -280,7 +280,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Plane,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Plane);
+                        SharedUtilities.SetClipboardTextSafe(Plane);
                         return true;
                     }
                 },
@@ -293,7 +293,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Props,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Props);
+                        SharedUtilities.SetClipboardTextSafe(Props);
                         return true;
                     }
                 },
@@ -306,7 +306,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Script,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Script);
+                        SharedUtilities.SetClipboardTextSafe(Script);
                         return true;
                     }
                 },
@@ -319,7 +319,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Unicode,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Unicode);
+                        SharedUtilities.SetClipboardTextSafe(Unicode);
                         return true;
                     }
                 },
@@ -332,7 +332,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Utf16BE,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Utf16BE);
+                        SharedUtilities.SetClipboardTextSafe(Utf16BE);
                         return true;
                     }
                 },
@@ -345,7 +345,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Utf16LE,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Utf16LE);
+                        SharedUtilities.SetClipboardTextSafe(Utf16LE);
                         return true;
                     }
                 },
@@ -358,7 +358,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Utf8,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Utf8);
+                        SharedUtilities.SetClipboardTextSafe(Utf8);
                         return true;
                     }
                 },
@@ -371,7 +371,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Width,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Width);
+                        SharedUtilities.SetClipboardTextSafe(Width);
                         return true;
                     }
                 },
@@ -384,7 +384,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
                     CopyText = Xml,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(Xml);
+                        SharedUtilities.SetClipboardTextSafe(Xml);
                         return true;
                     }
                 }

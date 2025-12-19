@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 
 namespace Flow.Launcher.Plugin.SearchUnicode.Utils
 {
@@ -94,6 +96,45 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Utils
             }
 
             return new List<int>(result);
+        }
+
+        /// <summary>
+        /// Sets text to the clipboard with retry logic to handle clipboard access errors.
+        /// This method retries up to 10 times with exponential backoff when the clipboard is locked.
+        /// </summary>
+        /// <param name="text">The text to set to the clipboard</param>
+        /// <returns>True if successful, false otherwise</returns>
+        public static bool SetClipboardTextSafe(string text)
+        {
+            const int maxRetries = 10;
+            const int initialDelayMs = 10;
+            
+            for (int i = 0; i < maxRetries; i++)
+            {
+                try
+                {
+                    System.Windows.Clipboard.SetText(text);
+                    return true;
+                }
+                catch (COMException ex) when (ex.HResult == unchecked((int)0x800401D0)) // CLIPBRD_E_CANT_OPEN
+                {
+                    if (i == maxRetries - 1)
+                    {
+                        // Last retry failed, give up
+                        return false;
+                    }
+                    
+                    // Wait with exponential backoff before retrying
+                    Thread.Sleep(initialDelayMs * (1 << i));
+                }
+                catch
+                {
+                    // For other exceptions, don't retry
+                    return false;
+                }
+            }
+            
+            return false;
         }
     }
 }

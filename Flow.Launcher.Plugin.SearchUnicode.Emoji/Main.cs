@@ -124,7 +124,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
 					Action = _ =>
                     {
                         var settings = _context.API.LoadSettingJsonStorage<Settings>();
-                        System.Windows.Clipboard.SetText(c.Emoji);
+                        SharedUtilities.SetClipboardTextSafe(c.Emoji);
 
                         if (settings.SelectedAction == "Copy and paste")
                         {
@@ -173,7 +173,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     CopyText = emoji.Cldr,
 					Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(emoji.Cldr);
+                        SharedUtilities.SetClipboardTextSafe(emoji.Cldr);
                         return true;
                     }
                 },
@@ -186,7 +186,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     CopyText = emoji.CldrFull,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(emoji.CldrFull);
+                        SharedUtilities.SetClipboardTextSafe(emoji.CldrFull);
                         return true;
                     }
                 },
@@ -199,7 +199,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     CopyText = emoji.Codepoint,
 					Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(emoji.Codepoint);
+                        SharedUtilities.SetClipboardTextSafe(emoji.Codepoint);
                         return true;
                     }
                 },
@@ -212,7 +212,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     CopyText = emoji.Emoji,
 					Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(emoji.Emoji);
+                        SharedUtilities.SetClipboardTextSafe(emoji.Emoji);
                         return true;
                     }
                 },
@@ -225,7 +225,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     CopyText = emoji.Name,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(emoji.Name);
+                        SharedUtilities.SetClipboardTextSafe(emoji.Name);
                         return true;
                     }
                 },
@@ -238,7 +238,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     CopyText = emoji.Group,
                     Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(emoji.Group);
+                        SharedUtilities.SetClipboardTextSafe(emoji.Group);
                         return true;
                     }
                 },
@@ -251,7 +251,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Emoji
                     CopyText = emoji.Subgroup,
 					Action = _ =>
                     {
-                        System.Windows.Clipboard.SetText(emoji.Subgroup);
+                        SharedUtilities.SetClipboardTextSafe(emoji.Subgroup);
                         return true;
                     }
                 },

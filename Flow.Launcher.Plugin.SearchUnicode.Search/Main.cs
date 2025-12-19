@@ -148,7 +148,7 @@ namespace Flow.Launcher.Plugin.SearchUnicode.Search
                 {
                     var settings = _context.API.LoadSettingJsonStorage<Settings>();
                     var text = Char.ConvertFromUtf32(int.Parse(c.Decimal)).ToString();
-                    System.Windows.Clipboard.SetText(text);
+                    SharedUtilities.SetClipboardTextSafe(text);
 
                     if (settings.SelectedAction == "Copy and paste")
                     {
